@@ -9,8 +9,9 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Andrius Chamentauskas"]
-  s.date = %q{2010-02-21}
-  s.description = %q{TODO: longer description of your gem}
+  s.date = %q{2010-02-22}
+  s.description = %q{Rails tables builder gem that makes creating tables painless. Includes ability to write custom column formatters or even customize row completely.
+Includes library of predefined column formatters. Also has ability to generate "totals" row.}
   s.email = %q{sinsiliux@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -23,21 +24,35 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "lib/formatters.rb",
      "lib/tabletastic.rb",
+     "lib/tabletastic/column.rb",
+     "lib/tabletastic/formatter.rb",
+     "lib/tabletastic/html_attributes.rb",
+     "lib/tabletastic/row.rb",
+     "lib/tabletastic/tables_helper.rb",
+     "lib/tabletastic/total.rb",
+     "spec/blueprint.rb",
+     "spec/fake_models.rb",
+     "spec/helpers/formatting_helper_spec.rb",
+     "spec/helpers/tables_helper_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
-     "spec/tabletastic_spec.rb"
+     "spec/tabletastic_spec.rb",
+     "tabletastic.gemspec"
   ]
   s.homepage = %q{http://github.com/sinsiliux/tabletastic}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
-  s.summary = %q{TODO: one-line summary of your gem}
+  s.summary = %q{Rails tables builder gem}
   s.test_files = [
     "spec/tabletastic_spec.rb",
-     "spec/tables_helper_spec.rb",
+     "spec/helpers/tables_helper_spec.rb",
+     "spec/helpers/formatting_helper_spec.rb",
      "spec/spec_helper.rb",
-     "spec/formatting_helper_spec.rb"
+     "spec/fake_models.rb",
+     "spec/blueprint.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -46,14 +61,23 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
-      s.add_runtime_dependency(%q<active_support>, [">= 0"])
+      s.add_development_dependency(%q<blueprints>, [">= 0"])
+      s.add_development_dependency(%q<mocha>, [">= 0"])
+      s.add_runtime_dependency(%q<activesupport>, [">= 0"])
+      s.add_runtime_dependency(%q<actionpack>, [">= 0"])
     else
       s.add_dependency(%q<rspec>, [">= 1.2.9"])
-      s.add_dependency(%q<active_support>, [">= 0"])
+      s.add_dependency(%q<blueprints>, [">= 0"])
+      s.add_dependency(%q<mocha>, [">= 0"])
+      s.add_dependency(%q<activesupport>, [">= 0"])
+      s.add_dependency(%q<actionpack>, [">= 0"])
     end
   else
     s.add_dependency(%q<rspec>, [">= 1.2.9"])
-    s.add_dependency(%q<active_support>, [">= 0"])
+    s.add_dependency(%q<blueprints>, [">= 0"])
+    s.add_dependency(%q<mocha>, [">= 0"])
+    s.add_dependency(%q<activesupport>, [">= 0"])
+    s.add_dependency(%q<actionpack>, [">= 0"])
   end
 end
 
