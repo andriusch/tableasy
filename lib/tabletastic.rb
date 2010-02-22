@@ -4,15 +4,12 @@ require 'action_controller'
 %w{html_attributes column row total formatter tables_helper}.each {|f| require File.dirname(__FILE__) + "/tabletastic/#{f}" }
 
 module TableTastic
-  module Formatters
-  end
-
   class FormattersContext
     def self.formatter(name, options = {}, &block)
       Formatter.new(&block).tap do |formatter|
         formatter.format_header { nil } if options[:no_header]
 
-        Formatters.module_eval do
+        ActionView::Base.module_eval do
           define_method(name) do |column, *args|
             ColumnFormatter.new(self, formatter, column, *args)
           end
@@ -26,7 +23,6 @@ module TableTastic
   end
 end
 
-module ActionView::Helpers
-  include TableTastic::Formatters
+class ActionView::Base
   include TableTastic::TablesHelper
 end
