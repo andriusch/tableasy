@@ -1,4 +1,4 @@
-module TableTastic
+module Tableasy
   class Total
     undef_method :id if method_defined?(:id)
 

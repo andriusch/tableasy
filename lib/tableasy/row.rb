@@ -1,4 +1,4 @@
-module TableTastic
+module Tableasy
   class Row
     include HtmlAttributes
     attr_reader :record, :columns

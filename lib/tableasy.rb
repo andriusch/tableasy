@@ -1,15 +1,18 @@
 require 'active_support'
 require 'action_view'
 require 'action_controller'
-%w{html_attributes column row total formatter tables_helper}.each {|f| require File.dirname(__FILE__) + "/tabletastic/#{f}" }
+%w{html_attributes column row total formatter tables_helper}.each {|f| require File.dirname(__FILE__) + "/tableasy/#{f}" }
 
-module TableTastic
+module Tableasy
+  module FormattersHelper
+  end
+
   class FormattersContext
     def self.formatter(name, options = {}, &block)
       Formatter.new(&block).tap do |formatter|
         formatter.format_header { nil } if options[:no_header]
 
-        ActionView::Base.module_eval do
+        FormattersHelper.module_eval do
           define_method(name) do |column, *args|
             ColumnFormatter.new(self, formatter, column, *args)
           end
@@ -24,5 +27,6 @@ module TableTastic
 end
 
 class ActionView::Base
-  include TableTastic::TablesHelper
+  include Tableasy::TablesHelper
+  include Tableasy::FormattersHelper
 end

@@ -1,14 +1,11 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 
-describe TableTastic::TablesHelper do
+describe Tableasy::TablesHelper do
   it "should allow creating table for collection of models" do
     build :project
     output = helper.table_for(Project, [@project], :name)
 
     output.should == "<table><tr><th>Name</th></tr><tr class=\"project\" id=\"row_project_1\"><td>project</td></tr></table>"
-#      with_tag('tr') { with_tag('th', 'Name') }
-#      with_tag("tr.project#row_project_#{@project.id}") { with_tag('td', :text => 'project') }
-#    end
   end
 
   it "should yield row object with columns and record when creating table using block" do
@@ -41,7 +38,7 @@ describe TableTastic::TablesHelper do
 <tr><th>Name</th><th>Id</th></tr>\
 <tr class=\"person\" id=\"row_person_1\"><td>Admin</td><td>1</td></tr>\
 <tr class=\"person\" id=\"row_person_1\"><td>Andrius</td><td>1</td></tr>\
-<tr class=\"table_tastic_total total-row\" id=\"row_table_tastic_total_2\"><th>Total: </th><td>2</td></tr>\
+<tr class=\"tableasy_total total-row\" id=\"row_tableasy_total_2\"><th>Total: </th><td>2</td></tr>\
 </table>"
   end
 
@@ -56,7 +53,7 @@ describe TableTastic::TablesHelper do
 <tr><th>Name</th><th>Id</th></tr>\
 <tr class=\"person\" id=\"row_person_1\"><td>Admin</td><td>@1</td></tr>\
 <tr class=\"person\" id=\"row_person_1\"><td>Andrius</td><td>@1</td></tr>\
-<tr class=\"table_tastic_total total-row\" id=\"row_table_tastic_total_2\"><th>Total of:</th><td>@2</td></tr>\
+<tr class=\"tableasy_total total-row\" id=\"row_tableasy_total_2\"><th>Total of:</th><td>@2</td></tr>\
 </table>"
   end
 
@@ -77,7 +74,7 @@ describe TableTastic::TablesHelper do
 <tr><th>Name</th><th>Id2</th><th>Id</th></tr>\
 <tr class=\"person\" id=\"row_person_1\"><td>Admin</td><td>2</td><td>1 (50.000%)</td></tr>\
 <tr class=\"person\" id=\"row_person_1\"><td>Andrius</td><td>2</td><td>1 (50.000%)</td></tr>\
-<tr class=\"table_tastic_total total-row\" id=\"row_table_tastic_total_2\"><th>Total: </th><td>4</td><td>2 (50.000%)</td></tr>\
+<tr class=\"tableasy_total total-row\" id=\"row_tableasy_total_2\"><th>Total: </th><td>4</td><td>2 (50.000%)</td></tr>\
 </table>"
   end
 

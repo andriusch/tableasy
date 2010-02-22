@@ -1,4 +1,4 @@
-module TableTastic
+module Tableasy
   module TablesHelper
     def table_for(klass, list, *columns)
       options = columns.extract_options!
@@ -19,7 +19,7 @@ module TableTastic
 
         if options[:total]
           item = Total.new(list)
-          caption = I18n.t('tabletastic.total', :raise => true) rescue 'Total: '
+          caption = I18n.t('tableasy.total', :raise => true) rescue 'Total: '
           row = Row.new(item, columns[1..-1].unshift(caption), true)
           row.html[:class] = 'total-row'
           yield row if block_given?

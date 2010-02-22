@@ -1,6 +1,6 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-require 'tabletastic'
+require 'tableasy'
 require 'spec'
 require 'spec/autorun'
 require 'blueprints'
@@ -10,13 +10,15 @@ require 'fake_models'
 Spec::Runner.configure do |config|
   config.enable_blueprints :orm => :none, :root => File.dirname(__FILE__) + '/..'
   config.mock_with :mocha
-  config.before { TableTastic.reload_formatters(File.dirname(__FILE__) + '/../lib/formatters.rb')}
+  config.before { Tableasy.reload_formatters(File.dirname(__FILE__) + '/../lib/formatters.rb')}
 
   Blueprints::Context.send(:include, Mocha::API)
 end
 
 class HelperObject
   include ActionView::Helpers
+  include Tableasy::TablesHelper
+  include Tableasy::FormattersHelper
   attr_accessor :output_buffer
 #  include TableHelper
 

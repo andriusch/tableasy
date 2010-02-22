@@ -4,7 +4,7 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{tabletastic}
+  s.name = %q{tableasy}
   s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -25,30 +25,28 @@ Includes library of predefined column formatters. Also has ability to generate "
      "Rakefile",
      "VERSION",
      "lib/formatters.rb",
-     "lib/tabletastic.rb",
-     "lib/tabletastic/column.rb",
-     "lib/tabletastic/formatter.rb",
-     "lib/tabletastic/html_attributes.rb",
-     "lib/tabletastic/row.rb",
-     "lib/tabletastic/tables_helper.rb",
-     "lib/tabletastic/total.rb",
+     "lib/tableasy.rb",
+     "lib/tableasy/column.rb",
+     "lib/tableasy/formatter.rb",
+     "lib/tableasy/html_attributes.rb",
+     "lib/tableasy/row.rb",
+     "lib/tableasy/tables_helper.rb",
+     "lib/tableasy/total.rb",
      "spec/blueprint.rb",
      "spec/fake_models.rb",
      "spec/helpers/formatting_helper_spec.rb",
      "spec/helpers/tables_helper_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
-     "spec/tabletastic_spec.rb",
-     "tabletastic.gemspec"
+     "tableasy.gemspec"
   ]
-  s.homepage = %q{http://github.com/sinsiliux/tabletastic}
+  s.homepage = %q{http://github.com/sinsiliux/tableasy}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Rails tables builder gem}
   s.test_files = [
-    "spec/tabletastic_spec.rb",
-     "spec/helpers/tables_helper_spec.rb",
+    "spec/helpers/tables_helper_spec.rb",
      "spec/helpers/formatting_helper_spec.rb",
      "spec/spec_helper.rb",
      "spec/fake_models.rb",

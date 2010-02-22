@@ -1,4 +1,4 @@
-module TableTastic
+module Tableasy
   class ColumnFormatter
     def initialize(context, formatter, *args)
       @context = context

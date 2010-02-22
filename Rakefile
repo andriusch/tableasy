@@ -4,12 +4,12 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "tabletastic"
+    gem.name = "tableasy"
     gem.summary = %Q{Rails tables builder gem}
     gem.description = %Q{Rails tables builder gem that makes creating tables painless. Includes ability to write custom column formatters or even customize row completely.
 Includes library of predefined column formatters. Also has ability to generate "totals" row.}
     gem.email = "sinsiliux@gmail.com"
-    gem.homepage = "http://github.com/sinsiliux/tabletastic"
+    gem.homepage = "http://github.com/sinsiliux/tableasy"
     gem.authors = ["Andrius Chamentauskas"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "blueprints"
@@ -44,7 +44,7 @@ Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "tabletastic #{version}"
+  rdoc.title = "tableasy #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
