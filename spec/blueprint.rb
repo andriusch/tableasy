@@ -1,7 +1,11 @@
 blueprint :andrius do
-  Person.new('Andrius')
+  Person.new(1, 'Andrius')
+end
+
+blueprint :admin do
+  Person.new(1, 'Admin')
 end
 
 blueprint :project => :andrius do
-  Project.new('project', @andrius)
+  Project.new(1, 'project', @andrius)
 end

@@ -1,7 +1,18 @@
-class Person < Struct.new(:name)
-  alias :to_s :name
+module FakeModel
 end
 
-class Project < Struct.new(:name, :leader)
-  alias :to_s :name
+module FakeModelClass
+  def human_attribute_name(column)
+    column.to_s.humanize
+  end
+end
+
+class Person < Struct.new(:id, :name)
+  alias_method :to_s, :name
+  extend FakeModelClass
+end
+
+class Project < Struct.new(:id, :name, :leader)
+  alias_method :to_s, :name
+  extend FakeModelClass
 end

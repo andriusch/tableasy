@@ -10,13 +10,14 @@ require 'fake_models'
 Spec::Runner.configure do |config|
   config.enable_blueprints :orm => :none, :root => File.dirname(__FILE__) + '/..'
   config.mock_with :mocha
-  config.before { TableTastic.reload_formatters(File.dirname(__FILE__) + '/../lib/tabletastic/formatters.rb')}
+  config.before { TableTastic.reload_formatters(File.dirname(__FILE__) + '/../lib/formatters.rb')}
 
   Blueprints::Context.send(:include, Mocha::API)
 end
 
 class HelperObject
   include ActionView::Helpers
+  attr_accessor :output_buffer
 #  include TableHelper
 
   def url_for(args)

@@ -1,7 +1,7 @@
 require 'active_support'
 require 'action_view'
-require 'tabletastic/formatter'
-require 'tabletastic/helper'
+require 'action_controller'
+%w{html_attributes column row total formatter tables_helper}.each {|f| require File.dirname(__FILE__) + "/tabletastic/#{f}" }
 
 module TableTastic
   module Formatters
@@ -28,4 +28,5 @@ end
 
 module ActionView::Helpers
   include TableTastic::Formatters
+  include TableTastic::TablesHelper
 end

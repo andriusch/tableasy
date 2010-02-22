@@ -7,14 +7,14 @@ describe 'Formatters' do
 
   it "should show linked object" do
     formatter = helper.linked(:name)
-    formatter.header.should == :name
+    formatter.to_sym.should == :name
     formatter.execute(@andrius).should == '<a href="/people/Andrius">Andrius</a>'
   end
 
   it "should show object linked to itself" do
     build :project
     formatter = helper.linked_to(:leader)
-    formatter.header.should == :leader
+    formatter.to_sym.should == :leader
     formatter.execute(@project).should == '<a href="/people/Andrius">Andrius</a>'
   end
 
@@ -23,7 +23,7 @@ describe 'Formatters' do
     @andrius.stubs(:remaining).returns(8, -8, 8, nil)
 
     formatter = helper.with_percent(:remaining, :work_hours)
-    formatter.header.should == :remaining
+    formatter.to_sym.should == :remaining
     ["8 (8.000%)", "-8 (-8.000%)", "8 (61.538%)", "0 (0.000%)"].each do |result|
       formatter.execute(@andrius).should == result
     end
@@ -32,7 +32,7 @@ describe 'Formatters' do
   it "should return random number in range" do
     helper.expects(:rand).with(30).returns(23)
     formatter = helper.random(:hours, 100..130)
-    formatter.header.should == :hours
+    formatter.to_sym.should == :hours
     formatter.execute(nil).should == 123
   end
 
@@ -44,7 +44,7 @@ describe 'Formatters' do
     it "should allow show link with no symbol" do
       formatter = helper.tail_link('hello')
       formatter.execute(@andrius).should == '<a href="/people/Andrius">hello</a>'
-      formatter.header.should == nil
+      formatter.to_sym.should == nil
     end
 
     it "should allow passing custom url" do

@@ -10,7 +10,7 @@ module TableTastic
       @context.instance_exec(record, *@args, &@formatter.block)
     end
 
-    def header
+    def to_sym
       @formatter.format_header(@args.first)
     end
   end
