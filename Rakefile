@@ -11,6 +11,10 @@ begin
     gem.homepage = "http://github.com/sinsiliux/tabletastic"
     gem.authors = ["Andrius Chamentauskas"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_development_dependency "blueprints"
+    gem.add_development_dependency "mocha"
+    gem.add_dependency "active_support"
+    gem.add_dependency "action_pack"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
