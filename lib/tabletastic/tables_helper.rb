@@ -30,19 +30,6 @@ module TableTastic
       end
     end
 
-    def table_with_totals_for(klass, list, *columns, &block)
-      options = columns.extract_options!
-      content_for :table_bottom do
-        item = Total.new(list)
-        row = Row.new(item, columns[1..-1].unshift(t('common.total')), true)
-        row.html[:class] = 'total-row'
-        yield row if block_given?
-        content_row(item, row, :first_header => true)
-      end
-
-      table_for(klass, list, *columns.push(options), &block)
-    end
-
     def content_row(object, row, options = {})
       content_tag_for('tr', object, :row, row.html) do
         ''.tap do |result|
