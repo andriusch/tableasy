@@ -11,8 +11,9 @@ module Tableasy
           end.join
         end
 
-        content << list.collect do |item|
+        content << list.each_with_index.collect do |item, index|
           row = Row.new(item, columns)
+          row.html[:class] = index.odd? ? 'even' : 'odd'
           yield row if block_given?
           content_row(item, row)
         end.join
