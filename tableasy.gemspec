@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{tableasy}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Andrius Chamentauskas"]
-  s.date = %q{2010-02-23}
+  s.date = %q{2010-02-24}
   s.description = %q{Rails tables builder gem that makes creating tables painless. Includes ability to write custom column formatters or even customize row completely.
 Includes library of predefined column formatters. Also has ability to generate "totals" row.}
   s.email = %q{sinsiliux@gmail.com}
