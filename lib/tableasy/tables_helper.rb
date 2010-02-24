@@ -3,7 +3,7 @@ module Tableasy
     def table_for(klass, list, *columns)
       options = columns.extract_options!
 
-      content_tag('table') do
+      content_tag('table', options[:html]) do
         content = ''
         content << content_tag('tr') do
           columns.select {|column| column.to_sym }.collect do |column|

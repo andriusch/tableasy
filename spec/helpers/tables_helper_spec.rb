@@ -84,4 +84,10 @@ describe Tableasy::TablesHelper do
 
     output.should == "<table><tr></tr><tr class=\"person odd\" id=\"row_person_1\"><td><a href=\"/people/Andrius\">show</a></td></tr></table>"
   end
+
+  it "should allow passing custom html options to table" do
+    build :project
+    output = helper.table_for(Project, [@project], :name, :html => {:id => 'my_table'})
+    output.should == "<table id=\"my_table\"><tr><th>Name</th></tr><tr class=\"project odd\" id=\"row_project_1\"><td>project</td></tr></table>"
+  end
 end
