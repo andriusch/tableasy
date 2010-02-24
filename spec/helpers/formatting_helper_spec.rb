@@ -69,5 +69,20 @@ describe 'Formatters' do
       formatter = helper.tail_link('hello', :edit, :ajax => true)
       formatter.execute(@andrius).should == helper.link_to_remote('hello', :url => [:edit, @andrius])
     end
+
+    it "should allow creating edit url" do
+      formatter = helper.edit_link('Edit')
+      formatter.execute(@andrius).should == helper.link_to('Edit', [:edit, @andrius])
+    end
+
+    it "should allow creating ajax edit url" do
+      formatter = helper.edit_link('Edit', :ajax => true)
+      formatter.execute(@andrius).should == helper.link_to_remote('Edit', :url => [:edit, @andrius], :method => :get)
+    end
+
+    it "should allow creating delete link" do
+      formatter = helper.destroy_link('Delete')
+      formatter.execute(@andrius).should == helper.link_to('Delete', @andrius, :method => :delete, :confirm => 'Are you sure?')
+    end
   end
 end

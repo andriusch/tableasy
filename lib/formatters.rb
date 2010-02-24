@@ -4,7 +4,7 @@ end
 
 formatter(:linked_to) do |subject, column|
   object = subject.send(column)
-  object ? link_to(object, object) : '' 
+  object ? link_to(object, object) : ''
 end
 
 formatter(:tail_link, :no_header => true) do |subject, text, *args|
@@ -19,19 +19,17 @@ formatter(:tail_link, :no_header => true) do |subject, text, *args|
   end
 end
 
-#def edit_link(*url)
-#  options = url.extract_options!
-#  options.merge!(:method => 'get') if options[:ajax]
-#  url.unshift(:edit).push(options)
-#  tail_link "Edit", *url
-#end
-#
-#def destroy_link(*url)
-#  options = url.extract_options!
-#  options.reverse_merge!(:confirm => 'Are you sure?', :method => 'delete')
-#  url.push(options)
-#  tail_link "Delete", *url
-#end
+formatter(:edit_link) do |subject, text, options|
+  options ||= {}
+  options[:method] = 'get' if options[:ajax]
+  tail_link(text, :edit, options).execute(subject)
+end
+
+formatter(:destroy_link) do |subject, text, options|
+  options ||= {}
+  options.reverse_merge!(:confirm => 'Are you sure?', :method => 'delete')
+  tail_link(text, options).execute(subject)
+end
 
 formatter(:with_percent) do |subject, column, total_column|
   number, total = subject.send(column).to_i, subject.send(total_column).to_i
