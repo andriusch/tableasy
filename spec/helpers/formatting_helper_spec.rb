@@ -18,6 +18,14 @@ describe 'Formatters' do
     formatter.execute(@project).should == '<a href="/people/Andrius">Andrius</a>'
   end
 
+  it "should show nothing when linked object doesn't exist" do
+    build :project
+    @project.leader = nil
+    formatter = helper.linked_to(:leader)
+    formatter.to_sym.should == :leader
+    formatter.execute(@project).should == ''
+  end
+
   it "should show number with percent" do
     @andrius.stubs(:work_hours).returns(100, 100, 13, nil)
     @andrius.stubs(:remaining).returns(8, -8, 8, nil)

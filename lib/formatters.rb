@@ -4,7 +4,7 @@ end
 
 formatter(:linked_to) do |subject, column|
   object = subject.send(column)
-  link_to object, object
+  object ? link_to(object, object) : '' 
 end
 
 formatter(:tail_link, :no_header => true) do |subject, text, *args|
