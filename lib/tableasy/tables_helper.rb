@@ -1,9 +1,4 @@
 module Tableasy
-  class FakeObject
-    def id
-    end
-  end
-  
   module TablesHelper
     def table_for(klass, list, *columns, &block)
       options = columns.extract_options!
@@ -25,8 +20,8 @@ module Tableasy
         content << table.rows.each_with_index.collect do |item, index|
           row = Row.new(item, table.columns, false, table.vertical?)
           row.html[:class] = index.odd? ? 'even' : 'odd'
-          yield row if block_given?
-          content_row(item, row)
+          yield row if block_given? && table.horizontal?
+          content_row(table.item(item), row)
         end.join
 
 
@@ -36,8 +31,8 @@ module Tableasy
           caption = I18n.t('tableasy.total', :raise => true) rescue 'Total: '
           row = Row.new(item, columns[1..-1].unshift(caption), true, table.vertical?)
           row.html[:class] = 'total-row'
-          yield row if block_given?
-          content << content_row(item, row, :first_header => true)
+          yield row if block_given? && table.horizontal?
+          content << content_row(table.item(item), row, :first_header => true)
         end
 
         content
@@ -45,7 +40,6 @@ module Tableasy
     end
 
     def content_row(object, row, options = {})
-      object = FakeObject.new if row.vertical
       content_tag_for('tr', object, :row, row.html) do
         ''.tap do |result|
           if options[:first_header]
