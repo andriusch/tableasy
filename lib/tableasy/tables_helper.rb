@@ -1,30 +1,38 @@
 module Tableasy
   module TablesHelper
-    def table_for(klass, list, *columns)
+    def table_for(klass, list, *columns, &block)
       options = columns.extract_options!
+
+      table = Table.new(klass, list, columns, options)
 
       content_tag('table', options[:html]) do
         content = ''
         content << content_tag('tr') do
-          columns.select {|column| column.to_sym }.collect do |column|
-            content_tag 'th', klass.human_attribute_name(column.to_sym)
-          end.join
+          if table.vertical?
+            content_tag 'th', table.headers, :colspan => table.columns.size - 1
+          else
+            table.columns.select {|column| column.to_sym }.collect do |column|
+              content_tag 'th', klass.human_attribute_name(column.to_sym)
+            end.join
+          end
         end
 
-        content << list.each_with_index.collect do |item, index|
-          row = Row.new(item, columns)
+        content << table.rows.each_with_index.collect do |item, index|
+          row = Row.new(item, table.columns, false, table.vertical?)
           row.html[:class] = index.odd? ? 'even' : 'odd'
-          yield row if block_given?
-          content_row(item, row)
+          yield row if block_given? && table.horizontal?
+          content_row(table.item(item), row)
         end.join
 
+
+
         if options[:total]
-          item = Total.new(list)
+          item = Total.new(table.rows)
           caption = I18n.t('tableasy.total', :raise => true) rescue 'Total: '
-          row = Row.new(item, columns[1..-1].unshift(caption), true)
+          row = Row.new(item, columns[1..-1].unshift(caption), true, table.vertical?)
           row.html[:class] = 'total-row'
-          yield row if block_given?
-          content << content_row(item, row, :first_header => true)
+          yield row if block_given? && table.horizontal?
+          content << content_row(table.item(item), row, :first_header => true)
         end
 
         content

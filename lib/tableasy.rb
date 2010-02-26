@@ -1,7 +1,7 @@
 require 'active_support'
 require 'action_view'
 require 'action_controller'
-%w{html_attributes column row total formatter tables_helper}.each {|f| require File.dirname(__FILE__) + "/tableasy/#{f}" }
+%w{html_attributes column row total formatter tables_helper table}.each {|f| require File.dirname(__FILE__) + "/tableasy/#{f}" }
 
 module Tableasy
   module FormattersHelper

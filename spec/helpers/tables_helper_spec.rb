@@ -90,4 +90,14 @@ describe Tableasy::TablesHelper do
     output = helper.table_for(Project, [@project], :name, :html => {:id => 'my_table'})
     output.should == "<table id=\"my_table\"><tr><th>Name</th></tr><tr class=\"project odd\" id=\"row_project_1\"><td>project</td></tr></table>"
   end
+
+  it "should allow building vertical tables" do
+    build :andrius
+    output = helper.table_for(Person, [@andrius, @andrius, @andrius], :name, :id, :format => :vertical, :headers => 'Vertical Table')
+
+    output.should == "<table><tr><th colspan=\"2\">Vertical Table</th></tr>\
+<tr class=\"person odd\" id=\"row_person\"><td>name</td><td>Andrius</td><td>Andrius</td><td>Andrius</td></tr>\
+<tr class=\"person even\" id=\"row_person\"><td>id</td><td>1</td><td>1</td><td>1</td></tr>\
+</table>"
+  end
 end
