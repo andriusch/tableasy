@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Andrius Chamentauskas"]
-  s.date = %q{2010-02-24}
+  s.date = %q{2010-03-04}
   s.description = %q{Rails tables builder gem that makes creating tables painless. Includes ability to write custom column formatters or even customize row completely.
 Includes library of predefined column formatters. Also has ability to generate "totals" row.}
   s.email = %q{sinsiliux@gmail.com}
@@ -26,10 +26,11 @@ Includes library of predefined column formatters. Also has ability to generate "
      "VERSION",
      "lib/formatters.rb",
      "lib/tableasy.rb",
-     "lib/tableasy/column.rb",
      "lib/tableasy/formatter.rb",
      "lib/tableasy/html_attributes.rb",
-     "lib/tableasy/row.rb",
+     "lib/tableasy/table.rb",
+     "lib/tableasy/table/cell.rb",
+     "lib/tableasy/table/row.rb",
      "lib/tableasy/tables_helper.rb",
      "lib/tableasy/total.rb",
      "spec/blueprint.rb",
@@ -38,6 +39,9 @@ Includes library of predefined column formatters. Also has ability to generate "
      "spec/helpers/tables_helper_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
+     "spec/table/cell_spec.rb",
+     "spec/table/row_spec.rb",
+     "spec/table/table_spec.rb",
      "tableasy.gemspec"
   ]
   s.homepage = %q{http://github.com/sinsiliux/tableasy}
@@ -50,6 +54,9 @@ Includes library of predefined column formatters. Also has ability to generate "
      "spec/helpers/formatting_helper_spec.rb",
      "spec/spec_helper.rb",
      "spec/fake_models.rb",
+     "spec/table/cell_spec.rb",
+     "spec/table/table_spec.rb",
+     "spec/table/row_spec.rb",
      "spec/blueprint.rb"
   ]
 

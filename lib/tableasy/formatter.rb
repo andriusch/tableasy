@@ -1,21 +1,29 @@
 module Tableasy
-  class ColumnFormatter
-    def initialize(context, formatter, *args)
-      @context = context
-      @formatter = formatter
-      @args = args
-    end
-
-    def execute(record)
-      @context.instance_exec(record, *@args, &@formatter.block)
-    end
-
-    def to_sym
-      @formatter.format_header(@args.first)
-    end
-  end
-
   class Formatter
+    class Column
+      attr_reader :column
+
+      def initialize(context, formatter, column, *args)
+        options = args.extract_options!
+        @context = context
+        @formatter = formatter
+        @args = args
+        if options[:no_initial]
+          @args.unshift(column)
+        else
+          @column = column
+        end
+      end
+
+      def execute(record)
+        @context.instance_exec(record, *@args, &@formatter.block)
+      end
+
+      def to_sym
+        @formatter.format_header(@column || @args.first)
+      end
+    end
+
     attr_reader :block
 
     def initialize(&block)

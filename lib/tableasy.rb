@@ -1,7 +1,7 @@
 require 'active_support'
 require 'action_view'
 require 'action_controller'
-%w{html_attributes column row total formatter tables_helper table}.each {|f| require File.dirname(__FILE__) + "/tableasy/#{f}" }
+%w{html_attributes table/cell table/row total formatter tables_helper table}.each {|f| require File.dirname(__FILE__) + "/tableasy/#{f}" }
 
 module Tableasy
   module FormattersHelper
@@ -10,11 +10,11 @@ module Tableasy
   class FormattersContext
     def self.formatter(name, options = {}, &block)
       Formatter.new(&block).tap do |formatter|
-        formatter.format_header { nil } if options[:no_header]
+        formatter.format_header { nil } if options.delete(:no_header)
 
         FormattersHelper.module_eval do
           define_method(name) do |column, *args|
-            ColumnFormatter.new(self, formatter, column, *args)
+            Formatter::Column.new(self, formatter, column, *args.push(options))
           end
         end
       end

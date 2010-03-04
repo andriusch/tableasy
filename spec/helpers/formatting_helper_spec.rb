@@ -8,14 +8,14 @@ describe 'Formatters' do
   it "should show linked object" do
     formatter = helper.linked(:name)
     formatter.to_sym.should == :name
-    formatter.execute(@andrius).should == '<a href="/people/Andrius">Andrius</a>'
+    Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/people/Andrius">Andrius</a>'
   end
 
   it "should show object linked to itself" do
     build :project
     formatter = helper.linked_to(:leader)
     formatter.to_sym.should == :leader
-    formatter.execute(@project).should == '<a href="/people/Andrius">Andrius</a>'
+    Tableasy::Table::Cell.new(@project, formatter).value.should == '<a href="/people/Andrius">Andrius</a>'
   end
 
   it "should show nothing when linked object doesn't exist" do
@@ -23,7 +23,7 @@ describe 'Formatters' do
     @project.leader = nil
     formatter = helper.linked_to(:leader)
     formatter.to_sym.should == :leader
-    formatter.execute(@project).should == ''
+    Tableasy::Table::Cell.new(@project, formatter).value.should == ''
   end
 
   it "should show number with percent" do
@@ -33,7 +33,7 @@ describe 'Formatters' do
     formatter = helper.with_percent(:remaining, :work_hours)
     formatter.to_sym.should == :remaining
     ["8 (8.000%)", "-8 (-8.000%)", "8 (61.538%)", "0 (0.000%)"].each do |result|
-      formatter.execute(@andrius).should == result
+      Tableasy::Table::Cell.new(@andrius, formatter).value.should == result
     end
   end
 
@@ -41,7 +41,7 @@ describe 'Formatters' do
     helper.expects(:rand).with(30).returns(23)
     formatter = helper.random(:hours, 100..130)
     formatter.to_sym.should == :hours
-    formatter.execute(nil).should == 123
+    Tableasy::Table::Cell.new(nil, formatter).value.should == 123
   end
 
   describe 'tail_link' do
@@ -51,38 +51,46 @@ describe 'Formatters' do
 
     it "should allow show link with no symbol" do
       formatter = helper.tail_link('hello')
-      formatter.execute(@andrius).should == '<a href="/people/Andrius">hello</a>'
+      Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/people/Andrius">hello</a>'
       formatter.to_sym.should == nil
     end
 
     it "should allow passing custom url" do
       formatter = helper.tail_link('hello', :edit)
-      formatter.execute(@andrius).should == '<a href="/edit/people/Andrius">hello</a>'
+      Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/edit/people/Andrius">hello</a>'
     end
 
     it "should allow passing custom url and html attributes" do
       formatter = helper.tail_link('hello', :edit, :method => :delete)
-      formatter.execute(@andrius).should == helper.link_to('hello', [:edit, @andrius], :method => :delete)
+      Tableasy::Table::Cell.new(@andrius, formatter).value.should == helper.link_to('hello', [:edit, @andrius], :method => :delete)
     end
 
     it "should allow creating ajax link" do
       formatter = helper.tail_link('hello', :edit, :ajax => true)
-      formatter.execute(@andrius).should == helper.link_to_remote('hello', :url => [:edit, @andrius])
+      Tableasy::Table::Cell.new(@andrius, formatter).value.should == helper.link_to_remote('hello', :url => [:edit, @andrius])
     end
 
     it "should allow creating edit url" do
-      formatter = helper.edit_link('Edit')
-      formatter.execute(@andrius).should == helper.link_to('Edit', [:edit, @andrius])
+      formatter = helper.edit_link('(edit)')
+      Tableasy::Table::Cell.new(@andrius, formatter).value.should == helper.link_to('(edit)', [:edit, @andrius])
     end
 
     it "should allow creating ajax edit url" do
-      formatter = helper.edit_link('Edit', :ajax => true)
-      formatter.execute(@andrius).should == helper.link_to_remote('Edit', :url => [:edit, @andrius], :method => :get)
+      formatter = helper.edit_link('(edit)', :ajax => true)
+      Tableasy::Table::Cell.new(@andrius, formatter).value.should == helper.link_to_remote('(edit)', :url => [:edit, @andrius], :method => :get)
     end
 
     it "should allow creating delete link" do
-      formatter = helper.destroy_link('Delete')
-      formatter.execute(@andrius).should == helper.link_to('Delete', @andrius, :method => :delete, :confirm => 'Are you sure?')
+      formatter = helper.destroy_link('(delete)')
+      Tableasy::Table::Cell.new(@andrius, formatter).value.should == helper.link_to('(delete)', @andrius, :method => :delete, :confirm => 'Are you sure?')
     end
+  end
+
+  it "should allow creating header cell" do
+    formatter = helper.header_row('Hello')
+    cell = Tableasy::Table::Cell.new(@andrius, formatter)
+    cell.value.should == 'Hello'
+    cell.html[:colspan].should == 2
+    cell.header.should == true
   end
 end
