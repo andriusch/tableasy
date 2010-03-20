@@ -13,7 +13,7 @@ module Tableasy
 
       def value=(value)
         if value.is_a?(Tableasy::Formatter::Column)
-          @value = @subject.send(value.column) if value.column
+          self.value = value.column if value.column
           value.execute(self)
         else
           value = @subject.send(value) if value.is_a?(Symbol)

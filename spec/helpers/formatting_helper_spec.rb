@@ -44,6 +44,29 @@ describe 'Formatters' do
     Tableasy::Table::Cell.new(nil, formatter).value.should == 123
   end
 
+  it "should allow joining array" do
+    @andrius = mock(:ages => (20..23).to_a)
+    formatter = helper.joined_array(:ages, 100..130)
+    formatter.to_sym.should == :ages
+    Tableasy::Table::Cell.new(@andrius, formatter).value.should == "20<br />21<br />22<br />23"
+  end
+
+  it "should allow chaining formatters" do
+    build :andrius
+    helper.expects(:rand).with(30).returns(17)
+    formatter = helper.linked(helper.random(:name, 100..130))
+    formatter.to_sym.should == :name
+    Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/people/Andrius">117</a>'
+  end
+
+  it "should allow chaining two formatters, that both require initial value" do
+    build :andrius
+    @andrius.expects(:ages => (20..23).to_a)
+    formatter = helper.linked(helper.joined_array(:ages))
+    formatter.to_sym.should == :ages
+    Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/people/Andrius">20<br />21<br />22<br />23</a>'
+  end
+
   describe 'tail_link' do
     before do
       build :andrius

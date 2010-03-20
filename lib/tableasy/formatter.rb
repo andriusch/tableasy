@@ -15,8 +15,8 @@ module Tableasy
         end
       end
 
-      def execute(record)
-        @context.instance_exec(record, *@args, &@formatter.block)
+      def execute(cell)
+        @context.instance_exec(cell, *@args, &@formatter.block)
       end
 
       def to_sym
@@ -28,7 +28,7 @@ module Tableasy
 
     def initialize(&block)
       @block = block
-      @format_header = Proc.new {|header| header }
+      @format_header = Proc.new {|header| header.to_sym }
     end
 
     def format_header(header = nil, &block)

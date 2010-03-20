@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Andrius Chamentauskas"]
-  s.date = %q{2010-03-04}
+  s.date = %q{2010-03-20}
   s.description = %q{Rails tables builder gem that makes creating tables painless. Includes ability to write custom column formatters or even customize row completely.
 Includes library of predefined column formatters. Also has ability to generate "totals" row.}
   s.email = %q{sinsiliux@gmail.com}

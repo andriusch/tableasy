@@ -30,6 +30,10 @@ formatter(:destroy_link, :no_initial => true, :no_header => true) do |cell, text
   tail_link(text, options).execute(cell)
 end
 
+formatter(:joined_array) do |cell|
+  cell.value = cell.value.join("<br />")
+end
+
 formatter(:with_percent) do |cell, total_column|
   number, total = cell.value.to_i, cell.subject.send(total_column).to_i
   percent = total == 0 ? 0 : number.to_f / total * 100
