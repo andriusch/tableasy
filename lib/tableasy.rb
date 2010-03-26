@@ -8,16 +8,20 @@ module Tableasy
   end
 
   class FormattersContext
-    def self.formatter(name, options = {}, &block)
-      Formatter.new(&block).tap do |formatter|
-        formatter.format_header { nil } if options.delete(:no_header)
+    @@formatters = {}
+    cattr_reader :formatters
 
-        FormattersHelper.module_eval do
-          define_method(name) do |column, *args|
-            Formatter::Column.new(self, formatter, column, *args.push(options))
-          end
+    def self.formatter(name, options = {}, &block)
+      options.reverse_merge!(:initial => true, :header => :default)
+      options[:initial] = false if options[:header_only]
+
+      formatter = Formatter.new(options, &block)
+      FormattersHelper.module_eval do
+        define_method(name) do |column, *args|
+          Formatter::Column.new(self, formatter, column, *args.push(options))
         end
       end
+      @@formatters[name] = formatter
     end
   end
 

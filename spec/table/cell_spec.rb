@@ -35,9 +35,24 @@ describe Tableasy::Table::Cell do
   end
 
   it "should execute formatter if it's passed as value" do
-    f = Tableasy::Formatter.new {|cell, string| cell.value += string }
-    cf = Tableasy::Formatter::Column.new(self, f, :to_s, ' hello')
+    f = Tableasy::Formatter.new({}) {|cell, string| cell.value += string }
+    cf = Tableasy::Formatter::Column.new(self, f, :to_s, ' hello', :initial => true)
     cell = Tableasy::Table::Cell.new(@andrius, cf)
     cell.value.should == 'Andrius hello'
+  end
+
+  it "should execute formatters header if formatter is passed as value and cell is header cell" do
+    Tableasy::FormattersContext.formatters[:custom_header] = Tableasy::Formatter.new(:header_only => true) {|cell, column| cell.value = "#{column} custom" }
+    f = Tableasy::Formatter.new(:header => :custom) {}
+    cf = Tableasy::Formatter::Column.new(self, f, :to_s)
+    cell = Tableasy::Table::Cell.new(Person, cf, true)
+    cell.value.should == 'to_s custom'
+  end
+
+  it "should execute formatter if header formatter is passed as value and cell is header cell" do
+    f = Tableasy::Formatter.new(:header_only => true) {|cell, column| cell.value = "#{column} custom" }
+    cf = Tableasy::Formatter::Column.new(self, f, :to_s)
+    cell = Tableasy::Table::Cell.new(Person, cf, true)
+    cell.value.should == 'to_s custom'
   end
 end

@@ -12,6 +12,7 @@ module Tableasy
       end
 
       def value=(value)
+        value = value.header if @header and value.is_a?(Tableasy::Formatter::Column) and !value.header_only?
         if value.is_a?(Tableasy::Formatter::Column)
           self.value = value.column if value.column
           value.execute(self)

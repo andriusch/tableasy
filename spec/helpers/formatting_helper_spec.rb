@@ -7,14 +7,12 @@ describe 'Formatters' do
 
   it "should show linked object" do
     formatter = helper.linked(:name)
-    formatter.to_sym.should == :name
     Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/people/Andrius">Andrius</a>'
   end
 
   it "should show object linked to itself" do
     build :project
     formatter = helper.linked_to(:leader)
-    formatter.to_sym.should == :leader
     Tableasy::Table::Cell.new(@project, formatter).value.should == '<a href="/people/Andrius">Andrius</a>'
   end
 
@@ -22,7 +20,6 @@ describe 'Formatters' do
     build :project
     @project.leader = nil
     formatter = helper.linked_to(:leader)
-    formatter.to_sym.should == :leader
     Tableasy::Table::Cell.new(@project, formatter).value.should == ''
   end
 
@@ -31,7 +28,6 @@ describe 'Formatters' do
     @andrius.stubs(:remaining).returns(8, -8, 8, nil)
 
     formatter = helper.with_percent(:remaining, :work_hours)
-    formatter.to_sym.should == :remaining
     ["8 (8.000%)", "-8 (-8.000%)", "8 (61.538%)", "0 (0.000%)"].each do |result|
       Tableasy::Table::Cell.new(@andrius, formatter).value.should == result
     end
@@ -40,14 +36,12 @@ describe 'Formatters' do
   it "should return random number in range" do
     helper.expects(:rand).with(30).returns(23)
     formatter = helper.random(:hours, 100..130)
-    formatter.to_sym.should == :hours
     Tableasy::Table::Cell.new(nil, formatter).value.should == 123
   end
 
   it "should allow joining array" do
     @andrius = mock(:ages => (20..23).to_a)
     formatter = helper.joined_array(:ages, 100..130)
-    formatter.to_sym.should == :ages
     Tableasy::Table::Cell.new(@andrius, formatter).value.should == "20<br />21<br />22<br />23"
   end
 
@@ -55,7 +49,6 @@ describe 'Formatters' do
     build :andrius
     helper.expects(:rand).with(30).returns(17)
     formatter = helper.linked(helper.random(:name, 100..130))
-    formatter.to_sym.should == :name
     Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/people/Andrius">117</a>'
   end
 
@@ -63,7 +56,6 @@ describe 'Formatters' do
     build :andrius
     @andrius.expects(:ages => (20..23).to_a)
     formatter = helper.linked(helper.joined_array(:ages))
-    formatter.to_sym.should == :ages
     Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/people/Andrius">20<br />21<br />22<br />23</a>'
   end
 
@@ -75,7 +67,7 @@ describe 'Formatters' do
     it "should allow show link with no symbol" do
       formatter = helper.tail_link('hello')
       Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/people/Andrius">hello</a>'
-      formatter.to_sym.should == nil
+      formatter.header.should == nil
     end
 
     it "should allow passing custom url" do
@@ -110,10 +102,18 @@ describe 'Formatters' do
   end
 
   it "should allow creating header cell" do
-    formatter = helper.header_row('Hello')
+    formatter = helper.header_column('Hello')
     cell = Tableasy::Table::Cell.new(@andrius, formatter)
     cell.value.should == 'Hello'
     cell.html[:colspan].should == 2
     cell.header.should == true
+  end
+
+  describe "headers" do
+    it "should allow to create cell with default header" do
+      formatter = helper.default_header(:name)
+      cell = Tableasy::Table::Cell.new(Person, formatter)
+      cell.value.should == 'Name'
+    end
   end
 end

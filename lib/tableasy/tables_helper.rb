@@ -46,8 +46,8 @@ module Tableasy
     protected
 
     def header_cell(column, klass)
-      header = column.to_sym
-      Table::Cell.new(nil, klass.human_attribute_name(header), true) if header
+      column = default_header(column) if column.is_a?(Symbol)
+      Table::Cell.new(klass, column, true)
     end
 
     def table_row(object, columns)

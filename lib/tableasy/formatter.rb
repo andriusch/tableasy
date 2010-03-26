@@ -8,10 +8,12 @@ module Tableasy
         @context = context
         @formatter = formatter
         @args = args
-        if options[:no_initial]
-          @args.unshift(column)
-        else
+        if options[:initial]
           @column = column
+          @header_args = [@column] + @args
+        else
+          @args.unshift(column)
+          @header_args = @args
         end
       end
 
@@ -19,24 +21,26 @@ module Tableasy
         @context.instance_exec(cell, *@args, &@formatter.block)
       end
 
-      def to_sym
-        @formatter.format_header(@column || @args.first)
+      def header
+        @header ||= @formatter.header.is_a?(Tableasy::Formatter) ? self.class.new(@context, @formatter.header, *@header_args) : @formatter.header
+      end
+
+      def header_only?
+        @formatter.header_only?
       end
     end
 
-    attr_reader :block
+    attr_reader :block, :header
 
-    def initialize(&block)
+    def initialize(options, &block)
       @block = block
-      @format_header = Proc.new {|header| header.to_sym }
+      @header_only = options[:header_only]
+      @header = options[:header]
+      @header = FormattersContext.formatters[:"#{@header}_header"] if @header.is_a?(Symbol)
     end
 
-    def format_header(header = nil, &block)
-      if block
-        @format_header = block
-      else
-        @format_header.call(header)
-      end
+    def header_only?
+      @header_only
     end
   end
 end
