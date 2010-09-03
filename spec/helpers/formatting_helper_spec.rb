@@ -41,7 +41,7 @@ describe 'Formatters' do
 
   it "should allow joining array" do
     @andrius = mock(:ages => (20..23).to_a)
-    formatter = helper.joined_array(:ages, 100..130)
+    formatter = helper.joined_array(:ages)
     Tableasy::Table::Cell.new(@andrius, formatter).value.should == "20<br />21<br />22<br />23"
   end
 

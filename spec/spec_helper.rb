@@ -8,11 +8,14 @@ require 'mocha'
 require 'fake_models'
 
 Spec::Runner.configure do |config|
-  config.enable_blueprints :orm => :none, :root => File.dirname(__FILE__) + '/..'
   config.mock_with :mocha
   config.before { Tableasy.reload_formatters(File.dirname(__FILE__) + '/../lib/formatters.rb')}
 
   Blueprints::Context.send(:include, Mocha::API)
+end
+
+Blueprints.enable do |config|
+  config.root = File.dirname(__FILE__) + '/..'
 end
 
 class HelperObject
