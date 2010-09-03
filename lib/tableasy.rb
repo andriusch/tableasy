@@ -9,7 +9,6 @@ module Tableasy
 
   class FormattersContext
     @@formatters = {}
-    cattr_reader :formatters
 
     def self.formatter(name, options = {}, &block)
       options.reverse_merge!(:initial => true, :header => :default)
@@ -22,6 +21,10 @@ module Tableasy
         end
       end
       @@formatters[name] = formatter
+    end
+
+    def self.[](key)
+      @@formatters[key.to_sym] or raise "Formatter not found '#{key}'"
     end
   end
 

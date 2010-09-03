@@ -42,7 +42,7 @@ describe Tableasy::Table::Cell do
   end
 
   it "should execute formatters header if formatter is passed as value and cell is header cell" do
-    Tableasy::FormattersContext.formatters[:custom_header] = Tableasy::Formatter.new(:header_only => true) {|cell, column| cell.value = "#{column} custom" }
+    Tableasy::FormattersContext[:custom_header] = Tableasy::Formatter.new(:header_only => true) {|cell, column| cell.value = "#{column} custom" }
     f = Tableasy::Formatter.new(:header => :custom) {}
     cf = Tableasy::Formatter::Column.new(self, f, :to_s)
     cell = Tableasy::Table::Cell.new(Person, cf, true)

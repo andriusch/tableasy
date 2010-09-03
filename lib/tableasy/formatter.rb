@@ -35,8 +35,12 @@ module Tableasy
     def initialize(options, &block)
       @block = block
       @header_only = options[:header_only]
-      @header = options[:header]
-      @header = FormattersContext.formatters[:"#{@header}_header"] if @header.is_a?(Symbol)
+      if header_only?
+        @header = self
+      else
+        @header = options[:header]
+        @header = FormattersContext[:"#{@header}_header"] if @header.is_a?(Symbol)
+      end
     end
 
     def header_only?
