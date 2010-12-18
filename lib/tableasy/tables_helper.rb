@@ -20,7 +20,7 @@ module Tableasy
 
       content_tag('table', options[:html]) do
         table.rows[1..-1].each {|row| yield row } if block_given?
-        table.rows.collect {|row| content_row(row) }.join
+        table.rows.each {|row| concat content_row(row) }
       end
     end
 
@@ -33,13 +33,13 @@ module Tableasy
       end
 
       content_tag('table', options[:html]) do
-        table.rows.collect {|row| content_row(row) }.join
+        table.rows.each {|row| concat content_row(row) }
       end
     end
 
     def content_row(row)
       content_tag('tr', row.html) do
-        row.cells.collect {|cell| content_tag(cell.tag, cell.value, cell.html) }.join
+        row.cells.each {|cell| concat content_tag(cell.tag, cell.value, cell.html) }
       end
     end
 

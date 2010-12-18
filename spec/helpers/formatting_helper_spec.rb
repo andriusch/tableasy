@@ -19,7 +19,7 @@ describe 'Formatters' do
   it "should show nothing when linked object doesn't exist" do
     build :project
     @project.leader = nil
-    formatter = helper.linked_to(:leader)
+    formatter       = helper.linked_to(:leader)
     Tableasy::Table::Cell.new(@project, formatter).value.should == ''
   end
 
@@ -39,10 +39,18 @@ describe 'Formatters' do
     Tableasy::Table::Cell.new(nil, formatter).value.should == 123
   end
 
-  it "should allow joining array" do
-    @andrius = mock(:ages => (20..23).to_a)
-    formatter = helper.joined_array(:ages)
-    Tableasy::Table::Cell.new(@andrius, formatter).value.should == "20<br />21<br />22<br />23"
+  describe "joined array" do
+    it "should allow joining array" do
+      @andrius  = mock(:ages => (20..23).to_a)
+      formatter = helper.joined_array(:ages)
+      Tableasy::Table::Cell.new(@andrius, formatter).value.should == "20<br />21<br />22<br />23"
+    end
+
+    it "should escape attribute values" do
+      @andrius  = mock(:ages => ['<br>'])
+      formatter = helper.joined_array(:ages)
+      Tableasy::Table::Cell.new(@andrius, formatter).value.should == "&lt;br&gt;"
+    end
   end
 
   it "should allow chaining formatters" do
@@ -80,19 +88,9 @@ describe 'Formatters' do
       Tableasy::Table::Cell.new(@andrius, formatter).value.should == helper.link_to('hello', [:edit, @andrius], :method => :delete)
     end
 
-    it "should allow creating ajax link" do
-      formatter = helper.tail_link('hello', :edit, :ajax => true)
-      Tableasy::Table::Cell.new(@andrius, formatter).value.should == helper.link_to_remote('hello', :url => [:edit, @andrius])
-    end
-
     it "should allow creating edit url" do
       formatter = helper.edit_link('(edit)')
       Tableasy::Table::Cell.new(@andrius, formatter).value.should == helper.link_to('(edit)', [:edit, @andrius])
-    end
-
-    it "should allow creating ajax edit url" do
-      formatter = helper.edit_link('(edit)', :ajax => true)
-      Tableasy::Table::Cell.new(@andrius, formatter).value.should == helper.link_to_remote('(edit)', :url => [:edit, @andrius], :method => :get)
     end
 
     it "should allow creating delete link" do
@@ -103,7 +101,7 @@ describe 'Formatters' do
 
   it "should allow creating header cell" do
     formatter = helper.header_column('Hello')
-    cell = Tableasy::Table::Cell.new(@andrius, formatter)
+    cell      = Tableasy::Table::Cell.new(@andrius, formatter)
     cell.value.should == 'Hello'
     cell.html[:colspan].should == 2
     cell.header.should == true
@@ -112,7 +110,7 @@ describe 'Formatters' do
   describe "headers" do
     it "should allow to create cell with default header" do
       formatter = helper.default_header(:name)
-      cell = Tableasy::Table::Cell.new(Person, formatter)
+      cell      = Tableasy::Table::Cell.new(Person, formatter)
       cell.value.should == 'Name'
     end
   end

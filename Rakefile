@@ -11,11 +11,11 @@ Includes library of predefined column formatters. Also has ability to generate "
     gem.email = "sinsiliux@gmail.com"
     gem.homepage = "http://github.com/sinsiliux/tableasy"
     gem.authors = ["Andrius Chamentauskas"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_development_dependency "rspec", ">= 2.0.0"
     gem.add_development_dependency "blueprints"
     gem.add_development_dependency "mocha"
-    gem.add_dependency "activesupport"
-    gem.add_dependency "actionpack"
+    gem.add_dependency "activesupport", ">= 3.0.0"
+    gem.add_dependency "actionpack", ">= 3.0.0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -23,19 +23,10 @@ rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-end
-
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
 end
-
-task :spec => :check_dependencies
 
 task :default => :spec
 

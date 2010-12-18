@@ -1,13 +1,13 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'tableasy'
-require 'spec'
-require 'spec/autorun'
+require 'rspec'
 require 'blueprints'
 require 'mocha'
 require 'fake_models'
+require 'action_view/template/handlers/erb'
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.mock_with :mocha
   config.before { Tableasy.reload_formatters(File.dirname(__FILE__) + '/../lib/formatters.rb')}
 

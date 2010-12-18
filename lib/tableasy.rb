@@ -26,10 +26,14 @@ module Tableasy
     def self.[](key)
       @@formatters[key.to_sym] or raise "Formatter not found '#{key}'"
     end
+
+    def self.[]=(key, value)
+      @@formatters[key.to_sym] = value
+    end
   end
 
   def self.reload_formatters(file)
-    FormattersContext.module_eval(File.read(file))
+    FormattersContext.module_eval(File.read(file), file)
   end
 end
 
