@@ -15,6 +15,7 @@ module Tableasy
           @args.unshift(column)
           @header_args = @args
         end
+        @header_args.collect! { |arg| arg.is_a?(Tableasy::Formatter::Column) ? arg.column : arg  }
       end
 
       def execute(cell)

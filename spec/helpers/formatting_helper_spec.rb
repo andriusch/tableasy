@@ -53,20 +53,6 @@ describe 'Formatters' do
     end
   end
 
-  it "should allow chaining formatters" do
-    build :andrius
-    helper.expects(:rand).with(30).returns(17)
-    formatter = helper.linked(helper.random(:name, 100..130))
-    Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/people/Andrius">117</a>'
-  end
-
-  it "should allow chaining two formatters, that both require initial value" do
-    build :andrius
-    @andrius.expects(:ages => (20..23).to_a)
-    formatter = helper.linked(helper.joined_array(:ages))
-    Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/people/Andrius">20<br />21<br />22<br />23</a>'
-  end
-
   describe 'tail_link' do
     before do
       build :andrius
@@ -112,6 +98,28 @@ describe 'Formatters' do
       formatter = helper.default_header(:name)
       cell      = Tableasy::Table::Cell.new(Person, formatter)
       cell.value.should == 'Name'
+    end
+  end
+
+  describe "chaining" do
+    it "should allow chaining formatters" do
+      build :andrius
+      helper.expects(:rand).with(30).returns(17)
+      formatter = helper.linked(helper.random(:name, 100..130))
+      Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/people/Andrius">117</a>'
+    end
+
+    it "should allow chaining two formatters, that both require initial value" do
+      build :andrius
+      @andrius.expects(:ages => (20..23).to_a)
+      formatter = helper.linked(helper.joined_array(:ages))
+      Tableasy::Table::Cell.new(@andrius, formatter).value.should == '<a href="/people/Andrius">20<br />21<br />22<br />23</a>'
+    end
+
+    it "should allow chaining headers" do
+      formatter = helper.linked(helper.joined_array(:ages)).header
+      cell      = Tableasy::Table::Cell.new(Person, formatter)
+      cell.value.should == 'Ages'
     end
   end
 end
