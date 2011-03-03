@@ -3,16 +3,15 @@ module Tableasy
     class Column
       attr_reader :column
 
-      def initialize(context, formatter, column, *args)
+      def initialize(context, formatter, *args)
         options = args.extract_options!
         @context = context
         @formatter = formatter
         @args = args
         if options[:initial]
-          @column = column
+          @column = @args.shift
           @header_args = [@column] + @args
         else
-          @args.unshift(column)
           @header_args = @args
         end
         @header_args.collect! { |arg| arg.is_a?(Tableasy::Formatter::Column) ? arg.column : arg  }

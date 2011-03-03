@@ -93,6 +93,11 @@ describe 'Formatters' do
     cell.header.should == true
   end
 
+  it "should allow creating formatters that take no arguments" do
+    formatter = helper.my_edit_link
+    Tableasy::Table::Cell.new(@andrius, formatter).value.should == helper.link_to('my edit', [:edit, @andrius])
+  end
+
   describe "headers" do
     it "should allow to create cell with default header" do
       formatter = helper.default_header(:name)

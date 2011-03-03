@@ -21,6 +21,10 @@ formatter(:edit_link, :initial => false, :header => nil) do |cell, text, options
   tail_link(text, :edit, options).execute(cell)
 end
 
+formatter :my_edit_link, :initial => false, :header => nil do |cell|
+  tail_link('my edit', :edit).execute(cell)
+end
+
 formatter(:destroy_link, :initial => false, :header => nil) do |cell, text, options|
   options ||= {}
   options.reverse_merge!(:confirm => 'Are you sure?', :method => 'delete')

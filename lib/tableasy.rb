@@ -16,8 +16,8 @@ module Tableasy
 
       formatter = Formatter.new(options, &block)
       FormattersHelper.module_eval do
-        define_method(name) do |column, *args|
-          Formatter::Column.new(self, formatter, column, *args.push(options))
+        define_method(name) do |*args|
+          Formatter::Column.new(self, formatter, *args.push(options))
         end
       end
       @@formatters[name] = formatter
