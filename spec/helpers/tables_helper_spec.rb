@@ -76,13 +76,6 @@ describe Tableasy::TablesHelper do
 </table>"
   end
 
-  it "should not add nil column headers" do
-    build :andrius
-    output = helper.table_for(Person, [@andrius], helper.tail_link('show'))
-
-    output.should == "<table><tr></tr><tr class=\"person odd\" id=\"row_person_1\"><td><a href=\"/people/Andrius\">show</a></td></tr></table>"
-  end
-
   it "should allow passing custom html options to table" do
     build :project
     output = helper.table_for(Project, [@project], :name, :html => {:id => 'my_table'})

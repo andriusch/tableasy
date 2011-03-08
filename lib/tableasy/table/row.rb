@@ -5,7 +5,7 @@ module Tableasy
       attr_reader :cells
 
       def initialize(cells, html = {})
-        @cells = cells.select {|cell| cell.value }
+        @cells = cells
         @total, @header = html.delete(:total), html.delete(:header)
         @html = html
       end
